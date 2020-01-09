@@ -4,6 +4,7 @@ var restart = document.getElementById("restart");
 var removewalls = document.getElementById("removewalls");
 var ctx = canvas.getContext("2d");
 
+var speed=3;
 var pixlsize=30;
 var player={x:pixlsize*15,y:pixlsize*15};
 var food={x:pixlsize*0,y:pixlsize*0};
@@ -154,7 +155,9 @@ var start=false;
 button.onclick=(e)=>{
     if(start){stop(); button.innerText="Start Searching"; return}
     else{
-        timer=setInterval(waleed, 50); 
+        timer=setInterval(()=>{
+            for(var i=0; i<speed; i++)
+            waleed()}, 100); 
         button.innerText="Stop Searching";
         start=true;
     }
