@@ -3,8 +3,9 @@ var button = document.getElementById("start");
 var restart = document.getElementById("restart");
 var removewalls = document.getElementById("removewalls");
 var ctx = canvas.getContext("2d");
-
-var speed=1;
+var checkbox=document.getElementById("check");
+var gotocornars=checkbox.checked;
+var speed=2;
 var pixlsize=30;
 var player={x:pixlsize*15,y:pixlsize*15};
 var food={x:pixlsize*0,y:pixlsize*0};
@@ -55,18 +56,38 @@ var current=player;
 
 function waleed(){
 
-    if(current.x<canvas.width-pixlsize)
+    if(current.x<canvas.width-pixlsize){
         neighbors.push({x:current.x+pixlsize,y:current.y,parent:current})
-    if(current.x>0)
+        if(current.y>0&&gotocornars){
+            neighbors.push({x:current.x-pixlsize,
+                y:current.y-pixlsize,parent:current})
+        }
+    }
+    if(current.x>0){
         neighbors.push({x:current.x-pixlsize,y:current.y,parent:current})
-    if(current.y<canvas.height-pixlsize)
+        if(current.y<canvas.height-pixlsize&&gotocornars){
+             neighbors.push({x:current.x-pixlsize,
+                y:current.y+pixlsize,parent:current})
+        }
+    }
+    if(current.y<canvas.height-pixlsize){
         neighbors.push({x:current.x,y:current.y+pixlsize,parent:current})
-    if(current.y>0)
+        if(current.x<canvas.width-pixlsize&&gotocornars){
+            neighbors.push({x:current.x+pixlsize,y:current.y,parent:current}) 
+        }
+    }
+    if(current.y>0){
         neighbors.push({x:current.x,y:current.y-pixlsize,parent:current})
-    
+        if(current.x>0&&gotocornars){
+            neighbors.push({x:current.x-pixlsize,y:current.y,parent:current})
+        }
+    }
+
+
     if(!waypoints.includes({x:current.x,y:current.y})){
         waypoints.push({x:current.x,y:current.y,parent:current.parent});
     }
+    
 
     if(current.x==food.x&&food.y==current.y){
         while(true){
@@ -111,7 +132,6 @@ function waleed(){
             }
         }
     });
-    
 draw();
 }
 
@@ -181,6 +201,9 @@ var drawpoints=()=>{
     }
 ctx.stroke();
     
+}
+checkbox.onclick=()=>{
+    gotocornars=checkbox.checked;
 }
 var removewallsfun=function(){
     walls=new Array();
