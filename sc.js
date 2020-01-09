@@ -140,6 +140,7 @@ var stop=function(){
 }
 var restartfun=function(){
     start=false;
+    button.innerText="Start Searching";
     current=player;
     clearTimeout(timer);
     path=new Array();
