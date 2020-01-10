@@ -25,7 +25,7 @@ ctx.beginPath();
 var draw=function(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     neighbors.forEach((x)=>{
-        ctx.fillStyle = "#FF0000";
+        ctx.fillStyle = "#990000";
         ctx.fillRect(x.x,x.y,pixlsize,pixlsize);
     })
     waypoints.forEach((x)=>{
@@ -147,8 +147,10 @@ canvas.addEventListener("mousedown",(e)=>{
     y=Math.floor(oy/pixlsize)*pixlsize
 
     if(changeplayer){player={x:x,y:y};current=player;changeplayer=false;
+    walls=walls.filter((e)=>(e.x!=x||e.y!=y));
     warning.innerText="";changefood=false;draw();return}
     if(changefood){food={x:x,y:y};
+    walls=walls.filter((e)=>(e.x!=x||e.y!=y));
     warning.innerText="";changeplayer=false;changefood=false;draw();return}
 
     var include=false;
@@ -208,10 +210,12 @@ var removewallsfun=function(){
 }
 playerpos.onclick=()=>{
     changeplayer=true;
+    changefood=false;
     warning.innerText="Select position for first point";
 }
 foodpos.onclick=()=>{
     changefood=true;
+    changeplayer=false;
     warning.innerText="Select position for second point";
 }
 removewalls.onclick=()=>{
