@@ -1,6 +1,9 @@
 var canvas = document.getElementById("canvas");
 var button = document.getElementById("start");
+var playerpos = document.getElementById("player");
+var foodpos = document.getElementById("food");
 var restart = document.getElementById("restart");
+var warning = document.getElementById("warning");
 var removewalls = document.getElementById("removewalls");
 var ctx = canvas.getContext("2d");
 var checkbox=document.getElementById("check");
@@ -14,7 +17,8 @@ var waypoints=new Array();
 var path=new Array();
 var timer;
 var walls=new Array();
-
+var changeplayer=false;
+var changefood=false;
 
 ctx.beginPath();
 
@@ -82,8 +86,7 @@ function waleed(){
             neighbors.push({x:current.x-pixlsize,y:current.y,parent:current})
         }
     }
-
-
+   
     if(!waypoints.includes({x:current.x,y:current.y})){
         waypoints.push({x:current.x,y:current.y,parent:current.parent});
     }
@@ -142,6 +145,12 @@ canvas.addEventListener("mousedown",(e)=>{
     
     x=Math.floor(ox/pixlsize)*pixlsize
     y=Math.floor(oy/pixlsize)*pixlsize
+
+    if(changeplayer){player={x:x,y:y};current=player;changeplayer=false;
+    warning.innerText="";changefood=false;draw();return}
+    if(changefood){food={x:x,y:y};
+    warning.innerText="";changeplayer=false;changefood=false;draw();return}
+
     var include=false;
     walls.forEach((e)=>{
         if(e.x==x&&e.y==y){
@@ -164,9 +173,9 @@ var restartfun=function(){
     button.innerText="Start Searching";
     current=player;
     clearTimeout(timer);
-    path=new Array();
-    neighbors=new Array();
-    waypoints=new Array();
+    path.splice(0,path.length)
+    neighbors.splice(0,neighbors.length)
+    waypoints.splice(0,waypoints.length);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     draw()
 }
@@ -187,21 +196,9 @@ restart.onclick=()=>{
    restartfun()
 }
 
-var drawpoints=()=>{
-    ctx.fillStyle="gray";
-    ctx.fillRect(food.x,food.y,pixlsize,pixlsize);
 
-    ctx.fillStyle="darkgray";
-    ctx.fillRect(player.x,player.y,pixlsize,pixlsize);
-    
-    for(var i=0; i<canvas.width/pixlsize; i++){
-        for(var j=0; j<canvas.height/pixlsize; j++){
-            ctx.rect(i*pixlsize, j*pixlsize, pixlsize, pixlsize);
-        }
-    }
 ctx.stroke();
     
-}
 checkbox.onclick=()=>{
     gotocornars=checkbox.checked;
 }
@@ -209,10 +206,16 @@ var removewallsfun=function(){
     walls=new Array();
     draw()
 }
-
+playerpos.onclick=()=>{
+    changeplayer=true;
+    warning.innerText="Select position for first point";
+}
+foodpos.onclick=()=>{
+    changefood=true;
+    warning.innerText="Select position for second point";
+}
 removewalls.onclick=()=>{
    removewallsfun()
-   console.log("wda")
 }
 draw();
 

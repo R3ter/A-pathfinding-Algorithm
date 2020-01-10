@@ -3,19 +3,34 @@
         <Div style="position: absolute; color: white;">
             <h1 style="font-size: 200%;  white-space: nowrap;">A* Pathfinding <br> Algorithm</h1 >
             <h1 style="font-size: 200%; color: rgb(0, 195, 255);">GrinnigTrout</h1> 
+            <br>
+            <h3 style="color: green;">Click on points to create walls</h3>
         </Div>
+        <h3 style="color: chartreuse; position: absolute; top: 70%;" id="warning"></h3>
+        
         <canvas style="margin: auto; display: block; 
         background-color: rgb(218, 9, 9);" width="600px"
          height="600px" id="canvas"></canvas>
-        <div style="width: 100%;">
+         <div style="width: 100%;">
             <div style="top: 90%; left: 3%; position: absolute;">
                 <input type="checkbox" id="check">
                 <b style="color: whitesmoke;">go to corners</b> 
             </div>
+            <div style="position: absolute; top: 50%;">
+                <button style="display: inline; background-color:rgb(255, 30, 30);
+                padding: 1rem; color: rgb(255, 142, 142); border: none;margin: 1rem;" 
+                id="player">Change first point position</button>
+                <br>
+                <button style="display: inline;
+                background-color:rgb(255, 30, 30);
+                padding: 1rem; color: rgb(255, 142, 142); border: none; margin: 1rem;" 
+                id="food">Change second point position</button>
+            </div>
+
             <br>
-            <button style="display: inline; background-color:darkcyan; border: none;" id="restart">Restart</button>
-            <button style="display: inline; background-color:darkcyan; border: none;" id="start">Start Searching</button>
-            <button style="display: inline; background-color:darkcyan; border: none;" id="removewalls">Clear Walls</button>
+            <button style="display: inline; padding: .25rem; background-color:darkcyan; border: none;" id="restart">Restart</button>
+            <button style="display: inline; padding: .25rem; background-color:darkcyan; border: none;" id="start">Start Searching</button>
+            <button style="display: inline; padding: .25rem; background-color:darkcyan; border: none;" id="removewalls">Clear Walls</button>
         </div>
     </body>
     <script src="./sc.js"></script>
