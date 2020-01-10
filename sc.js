@@ -20,9 +20,10 @@ var walls=new Array();
 var changeplayer=false;
 var changefood=false;
 
-ctx.beginPath();
+
 
 var draw=function(){
+    ctx.beginPath();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     neighbors.forEach((x)=>{
         ctx.fillStyle = "#990000";
