@@ -4,11 +4,12 @@ var playerpos = document.getElementById("player");
 var foodpos = document.getElementById("food");
 var restart = document.getElementById("restart");
 var warning = document.getElementById("warning");
+var speedval = document.getElementById("speed");
 var removewalls = document.getElementById("removewalls");
 var ctx = canvas.getContext("2d");
 var checkbox=document.getElementById("check");
 var gotocornars=checkbox.checked;
-var speed=2;
+var speed=1;
 var pixlsize=30;
 var player={x:pixlsize*15,y:pixlsize*15};
 var food={x:pixlsize*0,y:pixlsize*0};
@@ -19,7 +20,6 @@ var timer;
 var walls=new Array();
 var changeplayer=false;
 var changefood=false;
-
 
 
 var draw=function(){
@@ -52,15 +52,15 @@ var draw=function(){
     ctx.fillRect(food.x,food.y,pixlsize,pixlsize);
 
     ctx.fillStyle="darkgray";
-    ctx.fillRect(player.x,player.y,pixlsize,pixlsize);
+    ctx.fillRect(player.x,player.y,pixlsize,pixlsize);    
     ctx.stroke();
 }
 
 
 var current=player;
-
+var integer=0;
 function waleed(){
-
+    integer++;
     if(current.x<canvas.width-pixlsize){
         neighbors.push({x:current.x+pixlsize,y:current.y,parent:current})
         if(current.y>0&&gotocornars){
@@ -165,6 +165,12 @@ canvas.addEventListener("mousedown",(e)=>{
     }else{
         walls=walls.filter((e)=>{return (e.x!=x||e.y!=y)})
     }
+    var x="";
+    walls.forEach((e)=>{
+        x=x+","+JSON.stringify(e)
+        x=x.replace(/"/g,"");
+    })
+    console.log(x)
     draw();
 })
 var stop=function(){
@@ -187,9 +193,7 @@ var start=false;
 button.onclick=()=>{
     if(start){stop(); button.innerText="Start Searching"; return}
     else{
-        timer=setInterval(()=>{
-            for(var i=0; i<speed; i++)
-            waleed()}, 0); 
+        timer=setInterval(waleed, speed*10); 
         button.innerText="Stop Searching";
         start=true;
     }
@@ -199,8 +203,6 @@ restart.onclick=()=>{
    restartfun()
 }
 
-
-ctx.stroke();
     
 checkbox.onclick=()=>{
     gotocornars=checkbox.checked;
@@ -223,5 +225,9 @@ removewalls.onclick=()=>{
    removewallsfun()
 }
 draw();
+speedval.oninput=()=>{
+    if(speedval.value.length>2){speedval.value=speedval.value.slice(0,2);}
+    speed=(speedval.value);
 
+}
 ctx.stroke();
